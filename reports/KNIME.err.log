@@ -1,0 +1,95 @@
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/asyncio/base_events.py", line 684, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# === Random Forest Classifier - KNIME Legacy (Fix Data Leakage) ===
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+# 1️⃣ Ambil data dari KNIME
+df = input_table_1.copy()
+
+# 2️⃣ Pastikan kolom target ada
+if 'class' not in df.columns:
+    raise ValueError("Kolom 'class' tidak ditemukan. Pastikan nama target benar.")
+
+# 3️⃣ Pisahkan fitur dan target
+X = df.drop(columns=['class'])
+y = df['class']
+
+# 4️⃣ Split data 70% train, 30% test (pastikan stratifikasi sesuai proporsi kelas)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y
+)
+
+# ❗ Jangan reset index (agar tidak salah urutan antara y_test dan X_test)
+# X_train.reset_index(drop=True, inplace=True)
+# X_test.reset_index(drop=True, inplace=True)
+# y_train.reset_index(drop=True, inplace=True)
+# y_test.reset_index(drop=True, inplace=True)
+
+# 5️⃣ Buat model Random Forest
+rf = RandomForestClassifier(
+    n_estimators=100,
+    max_depth=None,
+    random_state=42
+)
+rf.fit(X_train, y_train)
+
+# 6️⃣ Prediksi di data test
+y_pred = rf.predict(X_test)
+
+# 7️⃣ Evaluasi hasil
+acc = accuracy_score(y_test, y_pred)
+report_df = pd.DataFrame(classification_report(y_test, y_pred, output_dict=True)).transpose()
+cm = confusion_matrix(y_test, y_pred)
+cm_df = pd.DataFrame(
+    cm,
+    index=[f"Actual_{cls}" for cls in rf.classes_],
+    columns=[f"Pred_{cls}" for cls in rf.classes_]
+)
+
+# 8️⃣ Buat tabel hasil prediksi
+hasil_prediksi = X_test.copy()
+hasil_prediksi['Actual'] = y_test.values
+hasil_prediksi['Predicted'] = y_pred
+hasil_prediksi['Benar'] = (hasil_prediksi['Actual'] == hasil_prediksi['Predicted']).astype(int)
+hasil_prediksi['Accuracy_Total (%)'] = round(acc * 100, 2)
+
+# 9️⃣ Output ke KNIME
+output_table_1 = hasil_prediksi
+output_table_2 = report_df
+output_table_3 = cm_df
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mNameError[39m                                 Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 9[39m
+[32m      6[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01msklearn[39;00m[34;01m.[39;00m[34;01mmetrics[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m accuracy_score, classification_report, confusion_matrix
+[32m      8[39m [38;5;66;03m# 1️⃣ Ambil data dari KNIME[39;00m
+[32m----> [39m[32m9[39m df = [43minput_table_1[49m.copy()
+[32m     11[39m [38;5;66;03m# 2️⃣ Pastikan kolom target ada[39;00m
+[32m     12[39m [38;5;28;01mif[39;00m [33m'[39m[33mclass[39m[33m'[39m [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m df.columns:
+
+[31mNameError[39m: name 'input_table_1' is not defined
+

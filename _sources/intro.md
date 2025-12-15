@@ -1,11 +1,21 @@
-# Welcome to your Jupyter Book
+# Profil saya
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+## Biodata
 
-Check out the content pages bundled with this sample book to see more.
+- **Nama:** Mohamad Wahyudi
+- **NIM:** 230411100055
+- **Email:** mohamadwahyudi772@gmail.com  
+- **Universitas:** Universitas Trunojoyo Madura  
+- **Fakultas:** Teknik  
+- **Program Studi:** Teknik Informatika  
+- **Kelas:** Proyek Sains Data B  
 
-```{tableofcontents}
-```
+---
+
+## Tentang Saya
+Saya adalah mahasiswa Teknik Informatika Universitas Trunojoyo Madura dan Saat ini saya mengikuti kelas Proyek Sains Data B untuk memperdalam keterampilan analisis data dan pengembangan proyek berbasis data.
+Sejahtera serta mulia dan sehat selalu dan semangat. IKUZOOO NAKAMAAA
+
+---
+
+{tableofcontents}
