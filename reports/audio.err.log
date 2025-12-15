@@ -21,7 +21,6 @@ nbclient.exceptions.CellExecutionError: An error occurred while executing the fo
 # === Load dataset ===
 df = pd.read_csv("data/voice_dataset.csv")
 
-# === Fitur 36 kolom ===
 feature_cols = [col for col in df.columns if col.startswith("mfcc")]
 X = df[feature_cols].to_numpy()
 y = df["status"].to_numpy()  # 0 = buka, 1 = tutup
@@ -39,8 +38,8 @@ print(f"Jumlah sampel: {X.shape[0]} suara\n")
 [36mCell[39m[36m [39m[32mIn[2][39m[32m, line 2[39m
 [32m      1[39m [38;5;66;03m# === Load dataset ===[39;00m
 [32m----> [39m[32m2[39m df = [43mpd[49m[43m.[49m[43mread_csv[49m[43m([49m[33;43m"[39;49m[33;43mdata/voice_dataset.csv[39;49m[33;43m"[39;49m[43m)[49m
-[32m      4[39m [38;5;66;03m# === Fitur 36 kolom ===[39;00m
-[32m      5[39m feature_cols = [col [38;5;28;01mfor[39;00m col [38;5;129;01min[39;00m df.columns [38;5;28;01mif[39;00m col.startswith([33m"[39m[33mmfcc[39m[33m"[39m)]
+[32m      4[39m feature_cols = [col [38;5;28;01mfor[39;00m col [38;5;129;01min[39;00m df.columns [38;5;28;01mif[39;00m col.startswith([33m"[39m[33mmfcc[39m[33m"[39m)]
+[32m      5[39m X = df[feature_cols].to_numpy()
 
 [36mFile [39m[32m~/.local/lib/python3.12/site-packages/pandas/io/parsers/readers.py:1026[39m, in [36mread_csv[39m[34m(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)[39m
 [32m   1013[39m kwds_defaults = _refine_defaults_read(
